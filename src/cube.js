@@ -42,7 +42,31 @@ class RubikCube extends THREE.Object3D {
             }
         }
 
-        this.scale.setScalar(.5)
+        this.scale.setScalar(.5);
+        console.log(this.getColorAfterRotation('white', 'blue', true));
+    }
+    
+    getColorAfterRotation(colorToRotate, rotateAround, clockwise) {
+        if (this.conf.rotations.hasOwnProperty(rotateAround)) {
+            if (this.conf.rotations[rotateAround].includes(colorToRotate)) {
+                let colorIndex = this.conf.rotations[rotateAround].indexOf(colorToRotate);
+                if (clockwise) {
+                    colorIndex++;
+                } else {
+                    colorIndex--;
+                }
+                if (colorIndex < 0) {
+                    colorIndex += this.conf.rotations[rotateAround].length;
+                } else if (colorIndex >= this.conf.rotations[rotateAround].length) {
+                    colorIndex -= this.conf.rotations[rotateAround].length;
+                }
+                return this.conf.rotations[rotateAround][colorIndex];
+            } else {
+                return colorToRotate;
+            }
+        } else {
+            return colorToRotate;
+        }
     }
 
 }

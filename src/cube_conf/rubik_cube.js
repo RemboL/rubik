@@ -4,31 +4,37 @@ let rubik_cube = {
     faces: {
         'blue': {
             color: 0x0000ff,
+            center: new THREE.Vector3(0, 0, 1),
             position: new THREE.Vector3(0, 0, .5),
             rotation: new THREE.Quaternion()
         },
         'green': {
             color: 0x00ff00,
+            center: new THREE.Vector3(0, 0, -1),
             position: new THREE.Vector3(0, 0, -.5),
             rotation: new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI)
         },
         'red': {
             color: 0xff0000,
+            center: new THREE.Vector3(-1, 0, 0),
             position: new THREE.Vector3(-.5, 0, 0),
             rotation: new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), -Math.PI / 2)
         },
         'orange': {
             color: 0xff8c00,
+            center: new THREE.Vector3(1, 0, 0),
             position: new THREE.Vector3(.5, 0, 0),
             rotation: new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI / 2)
         },
         'white': {
             color: 0xffffff,
+            center: new THREE.Vector3(0, 1, 0),
             position: new THREE.Vector3(0, .5, 0),
             rotation: new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), -Math.PI / 2)
         },
         'yellow': {
             color: 0xffff00,
+            center: new THREE.Vector3(0, -1, 0),
             position: new THREE.Vector3(0, -.5, 0),
             rotation: new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), Math.PI / 2)
         },
