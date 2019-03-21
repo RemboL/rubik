@@ -1,6 +1,7 @@
 const THREE = require('three');
 
 let rubik_cube = {
+    singleRotation: Math.PI / 2, 
     faces: {
         'blue': {
             color: 0x0000ff,

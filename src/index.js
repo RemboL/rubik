@@ -21,13 +21,12 @@ initializeScene(scene);
 
 
 let rubikCube = new RubikCube(rubik_cube);
-
-// let geometry = new THREE.BoxGeometry( 1, 1, 1 );
-// let material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-// let cube = new THREE.Mesh( geometry, material );
-// cube.castShadow = true;
-// scene.add( cube );
 scene.add(rubikCube);
+
+rubikCube.queueRotation('white', false, 2);
+rubikCube.queueRotation('green', false, 2);
+rubikCube.queueRotation('orange', false, 2);
+rubikCube.queueRotation('white', true, 2);
 
 let rotation = 0;
 let clock = new THREE.Clock();
@@ -39,7 +38,8 @@ let animate = function () {
 	let elapsed = clock.getElapsedTime(); // in seconds
 	// console.log(elapsed);
 
-	rotation += 0.01;
+	rubikCube.update(elapsed);
+	rotation += 0.005;
 	
 	camera.position.x = Math.cos(rotation) * 5;
 	camera.position.z = Math.sin(rotation) * 5;
