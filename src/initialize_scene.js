@@ -1,9 +1,9 @@
 const THREE = require('three');
 
 let initializeScene = function (scene) {
-    scene.add(new THREE.AmbientLight(0xffffff, 0.3));
+    scene.add(new THREE.AmbientLight(0xffffff, 0.6));
 
-    let light = new THREE.DirectionalLight(0xffffff, 0.7);
+    let light = new THREE.DirectionalLight(0xffffff, 0.4);
     light.position.set(0, 10, 0);
     light.castShadow = true;
     scene.add(light);

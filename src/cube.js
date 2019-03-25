@@ -16,13 +16,14 @@ class RubikCubePiece extends THREE.Object3D {
         let geometry = new THREE.BoxGeometry(.95, .95, .95);
         let material = new THREE.MeshBasicMaterial({color: 0x101010});
         let mesh = new THREE.Mesh(geometry, material);
+        mesh.castShadow = true;
         mesh.name = "piece cube";
         this.add(mesh);
     }
 
     addPieceFace(face, color, position, rotation) {
         let faceGeometry = new THREE.PlaneGeometry(.9, .9);
-        let faceMaterial = new THREE.MeshBasicMaterial({color: color});
+        let faceMaterial = new THREE.MeshPhongMaterial({color: color});
         let faceMesh = new THREE.Mesh(faceGeometry, faceMaterial);
         faceMesh.position.copy(position);
         faceMesh.setRotationFromQuaternion(rotation);

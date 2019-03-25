@@ -25,6 +25,10 @@ let mouseHandler = new MouseHandler(scene, camera, rubikCube);
 document.addEventListener('mousedown', event => mouseHandler.onMouseDown(event), false);
 document.addEventListener('mouseup', event => mouseHandler.onMouseUp(event), false);
 document.addEventListener('mousemove', event => mouseHandler.onMouseMove(event), false);
+document.addEventListener('touchstart', event => mouseHandler.onTouchStart(event), false);
+document.addEventListener('touchend', event => mouseHandler.onTouchEnd(event), false);
+document.addEventListener('touchmove', event => mouseHandler.onTouchMove(event), false);
+
 
 let rotation = Math.PI / 4;
 let clock = new THREE.Clock();
