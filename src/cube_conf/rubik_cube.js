@@ -42,10 +42,10 @@ let rubik_cube = {
     },
     rotations: {
         'blue': ['white', 'orange', 'yellow', 'red'],
-        'green': ['red', 'yellow', 'orange', 'white'],
+        'green': ['white', 'red', 'yellow', 'orange'],
         'red': ['white', 'blue', 'yellow', 'green'],
-        'orange': ['green', 'yellow', 'blue', 'white'],
-        'white': ['green', 'orange', 'blue', 'red'],
+        'orange': ['white', 'green', 'yellow', 'blue'],
+        'white': ['orange', 'blue', 'red', 'green'],
         'yellow': ['red', 'blue', 'orange', 'green']
     },
     pieces: {

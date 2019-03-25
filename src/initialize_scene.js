@@ -18,6 +18,7 @@ let initializeScene = function (scene) {
     floorMesh.rotateX(-Math.PI / 2);
     floorMesh.position.y = -5;
     floorMesh.receiveShadow = true;
+    floorMesh.name = "floor";
     scene.add(floorMesh);
     
     for (let i = 0; i < 4; ++i) {
@@ -31,6 +32,7 @@ let initializeScene = function (scene) {
         let rotation = i * Math.PI / 2;
         wallMesh.position.set(-Math.sin(rotation) * 15, 10, -Math.cos(rotation) * 15);
         wallMesh.rotateY(rotation);
+        wallMesh.name = "wall";
         scene.add(wallMesh);
     }
 
@@ -40,6 +42,7 @@ let initializeScene = function (scene) {
     let tableMesh = new THREE.Mesh(tableGeometry, tableMaterial);
     tableMesh.position.y = -2;
     tableMesh.receiveShadow = true;
+    tableMesh.name = "table";
     scene.add(tableMesh);
 };
 

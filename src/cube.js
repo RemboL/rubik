@@ -5,16 +5,18 @@ const THREE = require('three');
 
 class RubikCubePiece extends THREE.Object3D {
 
-    constructor(cube) {
+    constructor(cube, pieceKey) {
         super();
         
         this.cube = cube;
+        this.pieceKey = pieceKey;
         this.sides = [];
         this.currentRotation = null;
 
         let geometry = new THREE.BoxGeometry(.95, .95, .95);
         let material = new THREE.MeshBasicMaterial({color: 0x101010});
         let mesh = new THREE.Mesh(geometry, material);
+        mesh.name = "piece cube";
         this.add(mesh);
     }
 
@@ -24,11 +26,15 @@ class RubikCubePiece extends THREE.Object3D {
         let faceMesh = new THREE.Mesh(faceGeometry, faceMaterial);
         faceMesh.position.copy(position);
         faceMesh.setRotationFromQuaternion(rotation);
+        faceMesh.name = "piece side";
+
+        faceMesh.pieceRef = this;
 
         this.add(faceMesh);
         this.sides.push({
             side: face,
-            currentFace: face
+            currentFace: face,
+            mesh: faceMesh
         })
     }
     
@@ -118,7 +124,7 @@ class RubikCube extends THREE.Object3D {
 
         for (let pieceKey in conf.pieces) {
             if (conf.pieces.hasOwnProperty(pieceKey)) {
-                let piece = new RubikCubePiece(this);
+                let piece = new RubikCubePiece(this, pieceKey);
                 piece.position.copy(conf.pieces[pieceKey].position);
                 conf.pieces[pieceKey].faces.forEach(face => piece.addPieceFace(face, conf.faces[face].color, conf.faces[face].position, conf.faces[face].rotation));
                 this.pieces[pieceKey] = piece;
@@ -144,7 +150,7 @@ class RubikCube extends THREE.Object3D {
     startRotation(startTime, endTime, face, clockwise) {
         this.currentRotation = {
             endTime: endTime
-        }
+        };
         let piecesToRotate = [];
         for (let pieceKey in this.pieces) {
             if (this.pieces.hasOwnProperty(pieceKey)) {
@@ -155,7 +161,36 @@ class RubikCube extends THREE.Object3D {
         }
         piecesToRotate.forEach(piece => piece.setCurrentRotation(startTime, endTime, face, clockwise));
     }
-    
+
+
+    getRotationDirection(rotateAround, fromFace, toFace) {
+        console.log("rotating "+rotateAround+" from "+fromFace+" to "+toFace);
+        if (this.conf.rotations.hasOwnProperty(rotateAround)) {
+            if (this.conf.rotations[rotateAround].includes(fromFace)
+                && this.conf.rotations[rotateAround].includes(toFace)) {
+                let colorIndex = this.conf.rotations[rotateAround].indexOf(fromFace);
+                let clockwiseColor = colorIndex + 1;
+                if (clockwiseColor >= this.conf.rotations[rotateAround].length) {
+                    clockwiseColor -= this.conf.rotations[rotateAround].length;
+                }
+                let counterClockwiseColor = colorIndex - 1;
+                if (counterClockwiseColor < 0) {
+                    counterClockwiseColor += this.conf.rotations[rotateAround].length;
+                }
+                if (this.conf.rotations[rotateAround][clockwiseColor] === toFace) {
+                    return true;
+                }
+                if (this.conf.rotations[rotateAround][counterClockwiseColor] === toFace) {
+                    return false;
+                }
+                return null;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
     getColorAfterRotation(colorToRotate, rotateAround, clockwise) {
         if (this.conf.rotations.hasOwnProperty(rotateAround)) {
             if (this.conf.rotations[rotateAround].includes(colorToRotate)) {
@@ -196,6 +231,16 @@ class RubikCube extends THREE.Object3D {
             let nextRotation = this.queuedRotations.shift();
             this.startRotation(time, time + nextRotation.rotationTime, nextRotation.face, nextRotation.clockwise);
         }
+    }
+
+    cubeIsCurrentlyRotating() {
+        if (this.currentRotation !== null) {
+            return true;
+        } 
+        if (this.queuedRotations.length > 0) {
+            return true;
+        }
+        return false;
     }
 
 }
